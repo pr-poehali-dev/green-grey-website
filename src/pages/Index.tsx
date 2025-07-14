@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,331 +7,379 @@ import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 
 const Index = () => {
-  const [matrixChars, setMatrixChars] = useState<string[]>([]);
-  const [currentCommand, setCurrentCommand] = useState('');
-  const [terminalHistory, setTerminalHistory] = useState<string[]>([
-    'Digital Marketing Matrix v2.0 Initialized...',
-    'Loading portfolio data...',
-    'Connecting to client database...',
-    'System ready. Welcome to the Matrix.'
-  ]);
-
-  const matrixCharacters = ['0', '1', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ы', 'Э', 'Ю', 'Я'];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMatrixChars(prev => {
-        const newChars = [...prev];
-        for (let i = 0; i < 20; i++) {
-          newChars[i] = matrixCharacters[Math.floor(Math.random() * matrixCharacters.length)];
-        }
-        return newChars.slice(0, 100);
-      });
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
+  const [activeTab, setActiveTab] = useState('services');
 
   const services = [
     {
-      title: "SEO Optimization",
-      description: "Поисковая оптимизация сайтов",
-      icon: "Search",
-      status: "ACTIVE"
-    },
-    {
-      title: "PPC Management",
-      description: "Управление контекстной рекламой",
+      title: "Контекстная реклама",
+      description: "Google Ads, Яндекс.Директ с высоким ROAS",
       icon: "Target",
-      status: "ONLINE"
+      roas: "400%"
     },
     {
-      title: "Social Media",
-      description: "Продвижение в социальных сетях",
+      title: "Таргетированная реклама",
+      description: "Facebook, Instagram, VKontakte",
       icon: "Users",
-      status: "RUNNING"
+      roas: "350%"
     },
     {
-      title: "Analytics",
-      description: "Веб-аналитика и отчетность",
+      title: "SEO продвижение",
+      description: "Органический трафик и лиды",
+      icon: "TrendingUp",
+      roas: "280%"
+    },
+    {
+      title: "Аналитика и отчеты",
+      description: "Полная аналитика результатов",
       icon: "BarChart3",
-      status: "MONITORING"
+      roas: "Постоянно"
     }
   ];
 
-  const portfolioItems = [
+  const cases = [
     {
-      title: "E-commerce Boost",
-      description: "Увеличение продаж на 400%",
-      metrics: "ROI: 420%",
-      tech: "Google Ads, Facebook Ads"
+      title: "Интернет-магазин электроники",
+      description: "Увеличение продаж в 4 раза",
+      before: "500K ₽",
+      after: "2M ₽",
+      roas: "420%",
+      period: "3 месяца"
     },
     {
-      title: "B2B Lead Generation",
-      description: "Генерация лидов для IT-компании",
-      metrics: "CTR: 12.5%",
-      tech: "LinkedIn Ads, Email Marketing"
+      title: "B2B IT-услуги",
+      description: "Генерация качественных лидов",
+      before: "10 лидов",
+      after: "85 лидов",
+      roas: "380%",
+      period: "2 месяца"
     },
     {
-      title: "Brand Awareness",
-      description: "Повышение узнаваемости бренда",
-      metrics: "Reach: 2M+",
-      tech: "Instagram, TikTok, YouTube"
+      title: "Образовательные курсы",
+      description: "Масштабирование рекламы",
+      before: "200K ₽",
+      after: "1.2M ₽",
+      roas: "460%",
+      period: "4 месяца"
     }
   ];
 
-  const handleTerminalSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (currentCommand.trim()) {
-      setTerminalHistory(prev => [...prev, `> ${currentCommand}`, 'Command executed successfully.']);
-      setCurrentCommand('');
-    }
-  };
+  const stats = [
+    { label: "Средний ROAS", value: "400%", icon: "TrendingUp" },
+    { label: "Проектов запущено", value: "250+", icon: "Rocket" },
+    { label: "Лет опыта", value: "8+", icon: "Award" },
+    { label: "Клиентов", value: "180+", icon: "Users" }
+  ];
 
   return (
-    <div className="min-h-screen bg-black text-matrix-green relative overflow-hidden">
-      {/* Matrix Background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 matrix-bg opacity-10"></div>
-        {matrixChars.map((char, index) => (
-          <div
-            key={index}
-            className="absolute text-matrix-green/30 font-mono text-sm animate-matrix-rain"
-            style={{
-              left: `${(index % 20) * 5}%`,
-              top: `${Math.floor(index / 20) * 10}%`,
-              animationDelay: `${Math.random() * 2}s`
-            }}
-          >
-            {char}
-          </div>
-        ))}
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10">
-        {/* Header */}
-        <header className="border-b border-matrix-green/20 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-4">
-            <nav className="flex justify-between items-center">
-              <div className="flex items-center space-x-2">
-                <Icon name="Code" className="text-matrix-green" />
-                <span className="text-xl font-bold matrix-text">DIGITAL.MATRIX</span>
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Header */}
+      <header className="border-b border-border/50 sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 py-4">
+          <nav className="flex justify-between items-center">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <Icon name="Zap" className="text-primary-foreground" size={20} />
               </div>
-              <div className="hidden md:flex space-x-6">
-                <a href="#main" className="hover:text-matrix-green/80 transition-colors">ГЛАВНАЯ</a>
-                <a href="#portfolio" className="hover:text-matrix-green/80 transition-colors">ПОРТФОЛИО</a>
-                <a href="#services" className="hover:text-matrix-green/80 transition-colors">УСЛУГИ</a>
-                <a href="#contact" className="hover:text-matrix-green/80 transition-colors">КОНТАКТЫ</a>
-              </div>
-              <Button size="sm" className="bg-matrix-green text-black hover:bg-matrix-green/80">
-                CONNECT
-              </Button>
-            </nav>
-          </div>
-        </header>
-
-        {/* Hero Section */}
-        <section id="main" className="py-20 px-4">
-          <div className="container mx-auto text-center">
-            <div className="mb-8 relative">
-              <img 
-                src="/img/faeef459-f556-496b-a1a0-c8aaecf01068.jpg" 
-                alt="Digital Marketing Specialist"
-                className="w-32 h-32 rounded-full mx-auto mb-6 terminal-border"
-              />
-              <div className="absolute -top-2 -right-2 w-4 h-4 bg-matrix-green rounded-full animate-pulse"></div>
+              <span className="text-2xl font-bold">AD Matrix</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-glitch">
-              <span className="matrix-text">DIGITAL</span>
-              <br />
-              <span className="text-white">МАРКЕТОЛОГ</span>
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#services" className="text-muted-foreground hover:text-foreground transition-colors">Услуги</a>
+              <a href="#cases" className="text-muted-foreground hover:text-foreground transition-colors">Кейсы</a>
+              <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">Обо мне</a>
+              <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">Контакты</a>
+            </div>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              Начать проект
+            </Button>
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="py-20 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 gradient-bg opacity-20"></div>
+        <div className="container mx-auto text-center relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
+              Трафик с высоким ROAS
+            </Badge>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              Увеличу ваши продажи в{" "}
+              <span className="text-gradient">4 раза</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-matrix-green/80 font-mono">
-              &gt; Погружаем ваш бизнес в цифровую реальность
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Работаю с хайроллерами и прибыльными источниками трафика. 
+              Средний ROAS моих проектов — 400%.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-matrix-green text-black hover:bg-matrix-green/80 matrix-glow">
-                НАЧАТЬ ПРОЕКТ
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground green-glow">
+                Получить аудит бесплатно
               </Button>
-              <Button size="lg" variant="outline" className="border-matrix-green text-matrix-green hover:bg-matrix-green/10">
-                СМОТРЕТЬ КЕЙСЫ
+              <Button size="lg" variant="outline" className="border-border hover:bg-muted">
+                Посмотреть кейсы
               </Button>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Portfolio Section */}
-        <section id="portfolio" className="py-20 px-4">
-          <div className="container mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-12 matrix-text">
-              &lt;ПОРТФОЛИО /&gt;
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {portfolioItems.map((item, index) => (
-                <Card key={index} className="bg-matrix-gray/50 border-matrix-green/20 backdrop-blur-sm hover:matrix-glow transition-all duration-300">
-                  <CardHeader>
-                    <CardTitle className="text-matrix-green font-mono">{item.title}</CardTitle>
-                    <CardDescription className="text-matrix-green/70">{item.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-white font-mono text-sm">РЕЗУЛЬТАТ:</span>
-                        <Badge className="bg-matrix-green text-black">{item.metrics}</Badge>
-                      </div>
-                      <div className="text-matrix-green/60 text-sm font-mono">
-                        STACK: {item.tech}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+      {/* Stats Section */}
+      <section className="py-16 px-4 bg-muted/30">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name={stat.icon} className="text-primary" size={24} />
+                </div>
+                <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
+                <div className="text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Services Section */}
-        <section id="services" className="py-20 px-4">
-          <div className="container mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-12 matrix-text">
-              &lt;УСЛУГИ /&gt;
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {services.map((service, index) => (
-                <Card key={index} className="bg-matrix-gray/50 border-matrix-green/20 backdrop-blur-sm terminal-border">
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <Icon name={service.icon} className="text-matrix-green" />
-                        <CardTitle className="text-matrix-green font-mono">{service.title}</CardTitle>
-                      </div>
-                      <Badge className="bg-matrix-green/20 text-matrix-green border-matrix-green">
-                        {service.status}
-                      </Badge>
-                    </div>
-                    <CardDescription className="text-matrix-green/70 font-mono">
-                      {service.description}
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              ))}
-            </div>
+      {/* Services Section */}
+      <section id="services" className="py-20 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Услуги</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Полный спектр digital-маркетинга для масштабирования вашего бизнеса
+            </p>
           </div>
-        </section>
-
-        {/* Terminal Section */}
-        <section className="py-20 px-4">
-          <div className="container mx-auto">
-            <Card className="bg-black border-matrix-green terminal-border">
-              <CardHeader>
-                <CardTitle className="text-matrix-green font-mono flex items-center space-x-2">
-                  <Icon name="Terminal" />
-                  <span>MATRIX TERMINAL</span>
-                  <div className="flex space-x-1 ml-auto">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-matrix-green rounded-full"></div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.map((service, index) => (
+              <Card key={index} className="card-hover bg-card/50 backdrop-blur border-border/50">
+                <CardHeader className="pb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                    <Icon name={service.icon} className="text-primary" size={24} />
                   </div>
-                </CardTitle>
+                  <CardTitle className="text-xl">{service.title}</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    {service.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">Средний ROAS</span>
+                    <Badge className="bg-primary/10 text-primary border-primary/20">
+                      {service.roas}
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Cases Section */}
+      <section id="cases" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Кейсы</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Реальные результаты моих клиентов
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {cases.map((case_item, index) => (
+              <Card key={index} className="card-hover bg-card/50 backdrop-blur border-border/50">
+                <CardHeader>
+                  <div className="flex items-center justify-between mb-2">
+                    <CardTitle className="text-xl">{case_item.title}</CardTitle>
+                    <Badge className="bg-primary/10 text-primary border-primary/20">
+                      {case_item.roas}
+                    </Badge>
+                  </div>
+                  <CardDescription className="text-muted-foreground">
+                    {case_item.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Было</span>
+                      <span className="font-medium">{case_item.before}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Стало</span>
+                      <span className="font-medium text-primary">{case_item.after}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Период</span>
+                      <span className="text-sm">{case_item.period}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 px-4">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">Обо мне</h2>
+              <div className="space-y-6 text-lg text-muted-foreground">
+                <p>
+                  Привет! Я digital-маркетолог с 8-летним опытом в области 
+                  контекстной и таргетированной рекламы.
+                </p>
+                <p>
+                  Специализируюсь на проектах с высоким ROAS и работаю только 
+                  с прибыльными источниками трафика. За годы работы запустил 
+                  250+ проектов для клиентов разных ниш.
+                </p>
+                <p>
+                  Мой подход — это не просто настройка рекламы, а создание 
+                  комплексной воронки продаж с глубокой аналитикой и 
+                  постоянной оптимизацией.
+                </p>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Badge variant="secondary">Google Ads</Badge>
+                <Badge variant="secondary">Facebook Ads</Badge>
+                <Badge variant="secondary">Яндекс.Директ</Badge>
+                <Badge variant="secondary">SEO</Badge>
+                <Badge variant="secondary">Analytics</Badge>
+                <Badge variant="secondary">CRO</Badge>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="relative inline-block">
+                <img 
+                  src="/img/5cfddbad-4ef6-4007-a09e-bb75ed3247e5.jpg" 
+                  alt="Digital Marketing Specialist"
+                  className="w-80 h-80 object-cover rounded-2xl"
+                />
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Icon name="Award" className="text-primary" size={32} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Контакты</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Готов обсудить ваш проект и показать, как можно увеличить продажи
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            <Card className="bg-card/50 backdrop-blur border-border/50">
+              <CardHeader>
+                <CardTitle className="text-2xl">Напишите мне</CardTitle>
+                <CardDescription>
+                  Расскажите о своем проекте, и я предложу решение
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2 mb-4 h-40 overflow-y-auto">
-                  {terminalHistory.map((line, index) => (
-                    <div key={index} className="text-matrix-green font-mono text-sm">
-                      {line}
-                    </div>
-                  ))}
-                </div>
-                <form onSubmit={handleTerminalSubmit} className="flex items-center space-x-2">
-                  <span className="text-matrix-green font-mono">&gt;</span>
+                <form className="space-y-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input
+                      placeholder="Имя"
+                      className="bg-background/50 border-border/50"
+                    />
+                    <Input
+                      placeholder="Компания"
+                      className="bg-background/50 border-border/50"
+                    />
+                  </div>
                   <Input
-                    value={currentCommand}
-                    onChange={(e) => setCurrentCommand(e.target.value)}
-                    placeholder="Введите команду..."
-                    className="bg-transparent border-none text-matrix-green font-mono focus:ring-matrix-green"
+                    type="email"
+                    placeholder="Email"
+                    className="bg-background/50 border-border/50"
                   />
+                  <Input
+                    placeholder="Телефон"
+                    className="bg-background/50 border-border/50"
+                  />
+                  <Textarea
+                    placeholder="Расскажите о проекте..."
+                    className="bg-background/50 border-border/50"
+                    rows={4}
+                  />
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                    Отправить заявку
+                  </Button>
                 </form>
               </CardContent>
             </Card>
-          </div>
-        </section>
-
-        {/* Contact Section */}
-        <section id="contact" className="py-20 px-4">
-          <div className="container mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-12 matrix-text">
-              &lt;КОНТАКТЫ /&gt;
-            </h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="bg-matrix-gray/50 border-matrix-green/20 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-matrix-green font-mono">СВЯЗАТЬСЯ</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form className="space-y-4">
-                    <Input
-                      placeholder="Ваше имя"
-                      className="bg-transparent border-matrix-green/30 text-matrix-green"
-                    />
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      className="bg-transparent border-matrix-green/30 text-matrix-green"
-                    />
-                    <Textarea
-                      placeholder="Сообщение"
-                      className="bg-transparent border-matrix-green/30 text-matrix-green"
-                      rows={4}
-                    />
-                    <Button className="w-full bg-matrix-green text-black hover:bg-matrix-green/80">
-                      ОТПРАВИТЬ
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-matrix-gray/50 border-matrix-green/20 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-matrix-green font-mono">СИСТЕМА INFO</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3 font-mono text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-matrix-green/70">STATUS:</span>
-                      <span className="text-matrix-green">ONLINE</span>
+            
+            <div className="space-y-8">
+              <Card className="bg-card/50 backdrop-blur border-border/50">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Icon name="Mail" className="text-primary" size={24} />
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-matrix-green/70">LOCATION:</span>
-                      <span className="text-matrix-green">MOSCOW, RU</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-matrix-green/70">RESPONSE TIME:</span>
-                      <span className="text-matrix-green">&lt; 1 HOUR</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-matrix-green/70">TELEGRAM:</span>
-                      <span className="text-matrix-green">@digitalmatrix</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-matrix-green/70">EMAIL:</span>
-                      <span className="text-matrix-green">hello@matrix.dev</span>
+                    <div>
+                      <h3 className="font-semibold">Email</h3>
+                      <p className="text-muted-foreground">hello@admatrix.pro</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
+              
+              <Card className="bg-card/50 backdrop-blur border-border/50">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Icon name="MessageCircle" className="text-primary" size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">Telegram</h3>
+                      <p className="text-muted-foreground">@admatrix_pro</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-card/50 backdrop-blur border-border/50">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Icon name="Phone" className="text-primary" size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">Телефон</h3>
+                      <p className="text-muted-foreground">+7 (999) 123-45-67</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <div className="bg-primary/5 rounded-lg p-6 border border-primary/20">
+                <h3 className="font-semibold text-primary mb-2">Бесплатный аудит</h3>
+                <p className="text-sm text-muted-foreground">
+                  Проведу бесплатный аудит вашей текущей рекламы и покажу, 
+                  где можно улучшить результаты.
+                </p>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Footer */}
-        <footer className="border-t border-matrix-green/20 py-8 px-4">
-          <div className="container mx-auto text-center">
-            <p className="text-matrix-green/70 font-mono text-sm">
-              © 2024 DIGITAL.MATRIX - Все права защищены | Powered by React Matrix
-            </p>
-          </div>
-        </footer>
-      </div>
+      {/* Footer */}
+      <footer className="border-t border-border/50 py-8 px-4">
+        <div className="container mx-auto text-center">
+          <p className="text-muted-foreground">
+            © 2024 AD Matrix - Digital Marketing with High ROAS
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
